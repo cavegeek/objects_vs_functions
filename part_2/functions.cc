@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <variant>
 
 struct Rect {
   float x, y, w, h;
@@ -38,6 +39,23 @@ float test() {
  return on_smaller(c,r, [](auto s){return area(s);});
 }
 
+using Shape = std::variant<Rect, Circ>;
+
+float area(Shape const & s) {
+  return std::visit([](auto const & s){ return area(s); }, s);
+}
+
+Shape const & smaller(Shape const & s0, Shape const & s1) {
+  return area(s0) < area(s1) ? s0 : s1;
+}
+
+float test_new() {
+ Circ c{0.f, 0.f, 1.f};
+ Rect r{0.f, 0.f, 2.f, 2.f};
+ return area(smaller(c,r));
+}
+
 int main() {
   std::cout << test() << std::endl;
+  std::cout << test_new() << std::endl;
 }
