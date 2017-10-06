@@ -12,8 +12,15 @@ class Rect : public Shape {
 public:
   Rect(float const x, float const y, float const w, float const h)
     : x(x), y(y), w(w), h(h) {}
-  void shift(float dx, float dy) override;
-  float area() const override;
+
+  void shift(float dx, float dy) override {
+    x += dx;
+    y += dy;
+  }
+
+  float area() const override {
+    return w*h;
+  }
 };
 
 class Circ : public Shape {
@@ -21,27 +28,16 @@ class Circ : public Shape {
 public:
   Circ(float const x, float const y, float const r)
     : x(x), y(y), r(r) {}
-  void shift(float dx, float dy) override;
-  float area() const override;
+
+  void shift(float dx, float dy) override {
+    x += dx;
+    y += dy;
+  }
+
+  float area() const override {
+    return M_PI*r*r;
+  }
 };
-
-void Rect::shift(float dx, float dy) {
-  x += dx;
-  y += dy;
-}
-
-float Rect::area() const {
-  return w*h;
-}
-
-void Circ::shift(float dx, float dy) {
-  x += dx;
-  y += dy;
-}
-
-float Circ::area() const {
-  return M_PI*r*r;
-}
 
 Shape const & smaller(Shape const & s0, Shape const & s1) {
   return s0.area() < s1.area() ? s0 : s1;
